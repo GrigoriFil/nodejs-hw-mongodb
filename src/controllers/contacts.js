@@ -5,7 +5,24 @@ import { getAllContacts, getContactById, createContact, updateContact, deleteCon
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 export const getContactsController = async (req, res) => {
-  const contacts = await getAllContacts();
+  const { page, perPage, sortBy, sortOrder, type, isFavourite } = req.query;
+
+  const filter = {};
+  if (type) {
+    filter.contactType = type;
+  }
+  if (isFavourite !== undefined) {
+    filter.isFavourite = isFavourite === 'true';
+  }
+
+  const contacts = await getAllContacts({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filter,
+  });
+
   res.status(200).json({
     status: 200,
     message: 'Successfully found contacts!',

@@ -1,9 +1,35 @@
 import { Contact } from '../db/models/contact.js';
 import createHttpError from 'http-errors';
 
-export const getAllContacts = async () => {
-  const contacts = await Contact.find();
-  return contacts;
+export const getAllContacts = async ({
+  page = 1,
+  perPage = 10,
+  sortBy = 'name',
+  sortOrder = 'asc',
+  filter = {},
+}) => {
+  const skip = (page - 1) * perPage;
+  const sort = { [sortBy]: sortOrder === 'asc' ? 1 : -1 };
+
+  const contactsQuery = Contact.find(filter);
+
+  const totalItems = await Contact.countDocuments(filter);
+  const totalPages = Math.ceil(totalItems / perPage);
+
+  const contacts = await contactsQuery
+    .sort(sort)
+    .skip(skip)
+    .limit(perPage);
+
+  return {
+    data: contacts,
+    page,
+    perPage,
+    totalItems,
+    totalPages,
+    hasPreviousPage: page > 1,
+    hasNextPage: page < totalPages,
+  };
 };
 
 export const getContactById = async (contactId) => {
