@@ -1,8 +1,16 @@
 import { Router } from 'express';
-import { registerController, loginController, refreshController, logoutController } from '../controllers/auth.js';
+import {
+  registerController,
+  loginController,
+  refreshController,
+  logoutController,
+} from '../controllers/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
-import { registerUserSchema } from '../validation/auth.js';
+import {
+  registerUserSchema,
+  loginUserSchema,
+} from '../validation/auth.js';
 
 const router = Router();
 
