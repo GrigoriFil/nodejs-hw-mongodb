@@ -8,7 +8,6 @@ import {
   deleteContact,
 } from '../services/contacts.js';
 
-
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 export const getContactsController = async (req, res) => {
