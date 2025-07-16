@@ -16,6 +16,7 @@ export const authenticate = async (req, res, next) => {
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(payload.userId);
+
     if (!user) {
       return next(createHttpError(401, 'User not found'));
     }
