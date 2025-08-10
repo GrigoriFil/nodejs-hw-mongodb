@@ -1,7 +1,4 @@
 import { Schema, model } from 'mongoose';
-
-console.log('LOADING THE CORRECT CONTACT MODEL FILE...');
-
 const contactSchema = new Schema(
   {
     name: { type: String, required: true },
