@@ -44,6 +44,9 @@ export const getContactByIdController = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res) => {
+
+  console.log('User object from authenticate middleware:', req.user);
+
   const contact = await createContact(req.body, req.user._id);
 
   res.status(201).json({

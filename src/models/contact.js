@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 
+console.log('LOADING THE CORRECT CONTACT MODEL FILE...');
+
 const contactSchema = new Schema(
   {
     name: { type: String, required: true },
@@ -12,8 +14,11 @@ const contactSchema = new Schema(
       required: true,
       default: 'personal',
     },
-
-    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
   },
   {
     timestamps: true,

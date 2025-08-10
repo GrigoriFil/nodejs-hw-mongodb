@@ -1,6 +1,7 @@
 import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user.js';
+import { Session } from '../models/session.js';
 
 export const authenticate = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -15,14 +16,20 @@ export const authenticate = async (req, res, next) => {
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(payload.userId);
+    const session = await Session.findOne({ accessToken: token });
 
+    if (!session || new Date() > session.accessTokenValidUntil) {
+      return next(createHttpError(401, 'Access token expired or invalid'));
+    }
+
+    const user = await User.findById(payload.userId);
     if (!user) {
       return next(createHttpError(401, 'User not found'));
     }
+
     req.user = user;
     next();
   } catch (err) {
-    next(createHttpError(401, 'Access token expired or invalid'));
+    next(createHttpError(401, 'Access token is invalid'));
   }
 };
