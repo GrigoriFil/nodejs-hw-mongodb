@@ -2,7 +2,6 @@ import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user.js';
 import { Session } from '../models/session.js';
-import jwt from 'jsonwebtoken';
 import { sendMail } from '../utils/sendMail.js';
 
 const createSession = (userId) => {
@@ -31,12 +30,7 @@ export const registerUser = async (payload) => {
 
 export const loginUser = async (payload) => {
   const user = await User.findOne({ email: payload.email });
-  if (!user) {
-    throw createHttpError(401, 'Invalid email or password');
-  }
-
-  const isPasswordCorrect = await user.comparePassword(payload.password);
-  if (!isPasswordCorrect) {
+  if (!user || !(await user.comparePassword(payload.password))) {
     throw createHttpError(401, 'Invalid email or password');
   }
 
@@ -93,7 +87,6 @@ export const requestResetToken = async (email) => {
     html: `<p>To reset your password, click on this link: <a href="${resetPasswordUrl}">${resetPasswordUrl}</a></p>`,
   });
 };
-
 
 export const resetPassword = async (payload) => {
   let decodedToken;
