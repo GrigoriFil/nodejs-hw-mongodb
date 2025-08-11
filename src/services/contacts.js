@@ -1,4 +1,5 @@
 import { Contact } from '../db/models/contact.js';
+import { saveFileToCloudinary } from '../utils/cloudinary.js';
 
 export const getAllContacts = async (
   { filter = {}, ...params },
@@ -36,14 +37,33 @@ export const getContactById = async (contactId, userId) => {
   return Contact.findOne({ _id: contactId, userId });
 };
 
-export const createContact = async (payload, userId) => {
-  return Contact.create({ ...payload, userId });
+export const createContact = async (payload, userId, file) => {
+  let photoUrl;
+  if (file) {
+    const result = await saveFileToCloudinary(file);
+    photoUrl = result.url;
+  }
+
+  return Contact.create({ ...payload, userId, photo: photoUrl });
 };
 
-export const updateContact = async (contactId, payload, userId) => {
-  return Contact.findOneAndUpdate({ _id: contactId, userId }, payload, {
-    new: true,
-  });
+export const updateContact = async (contactId, payload, userId, file) => {
+  let photoUrl;
+  if (file) {
+    const result = await saveFileToCloudinary(file);
+    photoUrl = result.url;
+  }
+
+  const updatePayload = photoUrl ? { ...payload, photo: photoUrl } : payload;
+
+  const updatedContact = await Contact.findOneAndUpdate(
+    { _id: contactId, userId },
+    updatePayload,
+    {
+      new: true,
+    },
+  );
+  return updatedContact;
 };
 
 export const deleteContact = async (contactId, userId) => {

@@ -8,8 +8,6 @@ import {
   deleteContact,
 } from '../services/contacts.js';
 
-const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
-
 export const getContactsController = async (req, res) => {
   const { page, perPage, sortBy, sortOrder, type, isFavourite } = req.query;
   const filter = {};
@@ -45,9 +43,8 @@ export const getContactByIdController = async (req, res, next) => {
 
 export const createContactController = async (req, res) => {
 
-  console.log('User object from authenticate middleware:', req.user);
 
-  const contact = await createContact(req.body, req.user._id);
+  const contact = await createContact(req.body, req.user._id, req.file);
 
   res.status(201).json({
     status: 201,
@@ -58,7 +55,7 @@ export const createContactController = async (req, res) => {
 
 export const updateContactController = async (req, res, next) => {
   const { contactId } = req.params;
-  const contact = await updateContact(contactId, req.body, req.user._id);
+  const contact = await updateContact(contactId, req.body, req.user._id, req.file);
 
   if (!contact) {
     throw createHttpError(404, 'Contact not found');

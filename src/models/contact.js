@@ -1,4 +1,8 @@
 import { Schema, model } from 'mongoose';
+
+// Цей рядок має бути тут
+console.log('LOADING THE CORRECT CONTACT MODEL FILE...');
+
 const contactSchema = new Schema(
   {
     name: { type: String, required: true },
@@ -11,6 +15,7 @@ const contactSchema = new Schema(
       required: true,
       default: 'personal',
     },
+    // Це поле має бути тут
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
@@ -23,4 +28,4 @@ const contactSchema = new Schema(
   },
 );
 
-export const Contact = model('contact', contactSchema);
+export const Contact = model('contact', contactSchema); 
