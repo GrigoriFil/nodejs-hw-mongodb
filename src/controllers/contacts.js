@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import createHttpError from 'http-errors';
 import {
   getAllContacts,
@@ -7,6 +6,7 @@ import {
   updateContact,
   deleteContact,
 } from '../services/contacts.js';
+import { saveFileToCloudinary } from '../utils/cloudinary.js';
 
 export const getContactsController = async (req, res) => {
   const { page, perPage, sortBy, sortOrder, type, isFavourite } = req.query;
@@ -26,7 +26,7 @@ export const getContactsController = async (req, res) => {
   });
 };
 
-export const getContactByIdController = async (req, res, next) => {
+export const getContactByIdController = async (req, res) => {
   const { contactId } = req.params;
   const contact = await getContactById(contactId, req.user._id);
 
@@ -42,9 +42,18 @@ export const getContactByIdController = async (req, res, next) => {
 };
 
 export const createContactController = async (req, res) => {
+  const { _id: userId } = req.user;
+  let photoUrl;
 
+  if (req.file) {
+    photoUrl = await saveFileToCloudinary(req.file);
+  }
 
-  const contact = await createContact(req.body, req.user._id, req.file);
+  const contact = await createContact({
+    ...req.body,
+    userId,
+    photo: photoUrl,
+  });
 
   res.status(201).json({
     status: 201,
@@ -53,22 +62,33 @@ export const createContactController = async (req, res) => {
   });
 };
 
-export const updateContactController = async (req, res, next) => {
+export const updateContactController = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await updateContact(contactId, req.body, req.user._id, req.file);
+  const { _id: userId } = req.user;
 
-  if (!contact) {
+  const payload = { ...req.body };
+
+  if (req.file) {
+    payload.photo = await saveFileToCloudinary(req.file);
+  }
+
+  const result = await updateContact(
+    { _id: contactId, userId },
+    payload,
+  );
+
+  if (!result) {
     throw createHttpError(404, 'Contact not found');
   }
 
   res.status(200).json({
     status: 200,
     message: 'Successfully patched a contact!',
-    data: contact,
+    data: result.contact,
   });
 };
 
-export const deleteContactController = async (req, res, next) => {
+export const deleteContactController = async (req, res) => {
   const { contactId } = req.params;
   const contact = await deleteContact(contactId, req.user._id);
 

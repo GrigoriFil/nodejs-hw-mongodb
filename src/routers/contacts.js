@@ -1,3 +1,4 @@
+// src/routers/contacts.js
 import { Router } from 'express';
 import {
   getContactsController,
@@ -21,13 +22,12 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/', ctrlWrapper(getContactsController));
-
 router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
 
 router.post(
   '/',
   upload.single('photo'),
-  validateBody(createContactSchema),
+  validateBody(createContactSchema), 
   ctrlWrapper(createContactController),
 );
 
