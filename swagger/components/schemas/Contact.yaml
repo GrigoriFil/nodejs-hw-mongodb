@@ -1,0 +1,35 @@
+type: object
+properties:
+  _id:
+    type: string
+    example: '667d7f7b1e5d7d3d7f7b1e5d'
+  name:
+    type: string
+    example: 'John Doe'
+  email:
+    type: string
+    format: email
+    example: 'john.doe@example.com'
+  phoneNumber:
+    type: string
+    example: '+380123456789'
+  isFavourite:
+    type: boolean
+    example: false
+  contactType:
+    type: string
+    enum: [work, home, personal]
+    example: 'work'
+  photo:
+    type: string
+    format: url
+    example: 'http://res.cloudinary.com/demo/image/upload/v1626262626/sample.jpg'
+  userId:
+    type: string
+    example: '667d7f7b1e5d7d3d7f7b1e5e'
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time

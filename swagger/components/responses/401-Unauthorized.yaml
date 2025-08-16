@@ -1,0 +1,5 @@
+description: Unauthorized - The user is not authenticated
+content:
+  application/json:
+    schema:
+      $ref: ../../components/schemas/Error.yaml
