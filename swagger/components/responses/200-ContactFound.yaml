@@ -1,0 +1,15 @@
+description: Contact details retrieved successfully
+content:
+  application/json:
+    schema:
+      type: object
+      required: [status, message, data]
+      properties:
+        status:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: 'Successfully found contact with id 60d5f1b2c3b4a5e6f7g8h9i0!'
+        data:
+          $ref: '../schemas/Contact.yaml'

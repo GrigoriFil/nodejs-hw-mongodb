@@ -34,6 +34,6 @@ responses:
     content:
       application/json:
         schema:
-          $ref: '../../components/schemas/Contact.yaml'
+          $ref: '../../components/responses/201-ContactCreated.yaml'
   '401':
     $ref: '../../components/responses/401-Unauthorized.yaml'

@@ -19,7 +19,7 @@ responses:
     content:
       application/json:
         schema:
-          $ref: '../../../components/schemas/Contact.yaml'
+          $ref: '../../../components/responses/200-ContactFound.yaml'
   '401':
     $ref: '../../../components/responses/401-Unauthorized.yaml'
   '404':
