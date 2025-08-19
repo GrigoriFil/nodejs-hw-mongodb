@@ -27,3 +27,12 @@ content:
             totalItems:
               type: integer
               example: 100
+            totalPages:
+              type: integer
+              example: 10
+            hasPreviousPage:
+              type: boolean
+              example: false
+            hasNextPage:
+              type: boolean
+              example: true

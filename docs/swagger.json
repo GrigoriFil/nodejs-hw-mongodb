@@ -432,7 +432,7 @@
         }
       },
       "201-ContactCreated": {
-        "description": "Contact created successfully",
+        "description": "Contact created successfully.",
         "content": {
           "application/json": {
             "schema": {
@@ -449,7 +449,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Successfully created a contact!"
+                  "example": "Contact created successfully"
                 },
                 "data": {
                   "$ref": "../schemas/Contact.yaml"
@@ -477,7 +477,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Successfully found contact with id 60d5f1b2c3b4a5e6f7g8h9i0!"
+                  "example": "Successfully found contact!"
                 },
                 "data": {
                   "$ref": "../schemas/Contact.yaml"
@@ -488,7 +488,7 @@
         }
       },
       "200-ContactUpdated": {
-        "description": "Contact updated successfully",
+        "description": "Contact updated successfully.",
         "content": {
           "application/json": {
             "schema": {
@@ -505,7 +505,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Successfully patched a contact!"
+                  "example": "Contact updated successfully"
                 },
                 "data": {
                   "$ref": "../schemas/Contact.yaml"
@@ -557,6 +557,18 @@
                     "totalItems": {
                       "type": "integer",
                       "example": 100
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "hasPreviousPage": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "hasNextPage": {
+                      "type": "boolean",
+                      "example": true
                     }
                   }
                 }

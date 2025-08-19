@@ -1,3 +1,5 @@
+# swagger/components/responses/200-ContactFound.yaml
+
 description: Contact details retrieved successfully
 content:
   application/json:
@@ -10,6 +12,6 @@ content:
           example: 200
         message:
           type: string
-          example: 'Successfully found contact with id 60d5f1b2c3b4a5e6f7g8h9i0!'
+          example: "Successfully found contact!"
         data:
           $ref: '../schemas/Contact.yaml'
